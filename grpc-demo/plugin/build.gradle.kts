@@ -3,6 +3,7 @@ import org.gradle.kotlin.dsl.provider.gradleKotlinDslOf
 plugins {
     id("java")
     id("com.google.protobuf") version "0.8.12"
+    id("org.sonarqube") version "3.0"
 }
 repositories {
   mavenCentral()
@@ -50,6 +51,20 @@ protobuf {
     }
   }
 }
+
+sonarqube {
+    properties {
+        property("sonar.projectName", "microservices-starter-kotlin")
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.projectKey", "microservices-starter-kotlin-app")
+        property("sonar.projectVersion", "${project.version}")
+        property("sonar.junit.reportPaths", "${projectDir}/build/test-results/test")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${projectDir}/build/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.coverage.exclusions", "**/R.kt")
+        property("sonar.language", "kotlin")
+    }
+}
+
 
 dependencies{
     implementation("com.google.protobuf:protobuf-java:3.0.0")

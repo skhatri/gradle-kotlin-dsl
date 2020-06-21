@@ -1,5 +1,6 @@
 import com.google.protobuf.gradle.*
 import org.gradle.kotlin.dsl.provider.gradleKotlinDslOf
+import org.sonarqube.gradle.*
 
 plugins {
   java
@@ -15,10 +16,12 @@ buildscript{
 
   dependencies {
     classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.12")
+    classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
   }
 }
 
 apply(plugin="com.google.protobuf")
+apply(plugin="org.sonarqube")
 
 repositories {
   mavenCentral()
@@ -68,6 +71,21 @@ protobuf {
   }
 }
 
+
+tasks.named<SonarQubeTask>("sonarqube") {
+  project.configure<SonarQubeExtension>{
+    properties {
+      property("sonar.projectName", "microservices-starter-classpath")
+      property("sonar.host.url", "http://localhost:9000")
+      property("sonar.projectKey", "microservices-starter-classpath-app")
+      property("sonar.projectVersion", "${project.version}")
+      property("sonar.junit.reportPaths", "${projectDir}/build/test-results/test")
+      property("sonar.coverage.jacoco.xmlReportPaths", "${projectDir}/build/reports/jacoco/test/jacocoTestReport.xml")
+      property("sonar.coverage.exclusions", "**/R.java")
+      property("sonar.language", "java")
+    }
+  }
+}
 
 dependencies{
     implementation("com.google.protobuf:protobuf-java:3.0.0")
