@@ -48,15 +48,6 @@ sourceSets{
     }
 }
 
-
-sourceSets{
-    getByName("main").java.srcDirs("src/main/java")
-    getByName("main").java.srcDirs("src/generated/main/java")
-    getByName("main").java.srcDirs("src/generated/main/grpc")
-    getByName("main").proto.srcDirs("src/main/proto")
-    getByName("main").proto.include("**/*.proto")
-}
-
 protobuf {
   generatedFilesBaseDir="$projectDir/src/generated"
   protoc {
